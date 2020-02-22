@@ -1,0 +1,48 @@
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.canvas.*?>
+<HBox fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="CENTER_LEFT" stylesheets="@main.css" styleClass="main" spacing="5">
+
+    <Canvas fx:id="cellField" height="512" width="512"/>
+    <VBox alignment="CENTER" spacing="10">
+        <HBox alignment="CENTER">
+            <Button fx:id="buttonTick"  text="Tick"  onAction="#tickOnce"/>
+            <Button fx:id="buttonPause" text="Pause" onAction="#togglePause"/>
+            <Button fx:id="buttonReset" text="Reset" onAction="#reset"/>
+        </HBox>
+        <VBox alignment="CENTER_LEFT" spacing="5">
+            <Text text="Birth values:"/>
+            <HBox>
+                <TextField fx:id="birthValuesField"/>
+                <Button fx:id="buttonApplyBirthValues" text="Apply" onAction="#applyBirthValues"/>
+                <Button fx:id="buttonGetBirthValues" text="Get" onAction="#printBirthValues"/>
+            </HBox>
+        </VBox>
+        <VBox alignment="CENTER_LEFT" spacing="5">
+            <Text text="Stay values:"/>
+            <HBox>
+                <TextField fx:id="stayValuesField"/>
+                <Button fx:id="buttonApplyStayValues" text="Apply" onAction="#applyStayValues"/>
+                <Button fx:id="buttonGetStayValues" text="Get" onAction="#printStayValues"/>
+            </HBox>
+        </VBox>
+        <VBox alignment="CENTER_LEFT" spacing="5">
+            <Text text="Fill density:"/>
+            <HBox>
+                <TextField fx:id="fillDensityField"/>
+                <Button fx:id="buttonApplyFillDensity" text="Apply" onAction="#applyFillDensity"/>
+                <Button fx:id="buttonGetFillDensity" text="Get" onAction="#printFillDensity"/>
+            </HBox>
+        </VBox>
+        <HBox alignment="CENTER">
+            <Button fx:id="buttonCapture" text="Capture" onAction="#captureTheField"/>
+            <Button fx:id="buttonSave" text="Save" onAction="#saveTheField"/>
+            <Button fx:id="buttonLoad" text="Load" onAction="#loadTheField"/>
+        </HBox>
+    </VBox>
+</HBox>
