@@ -8,9 +8,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import javax.imageio.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.TimerTask;
 
@@ -23,9 +31,14 @@ public class Controller {
 
     private WritableImage wimg, wimg2;
     private BufferedImage bimg;
+    private Stage primaryStage;
+    public void setPrimaryStage(Stage s){
+        primaryStage = s;
+    }
 
     private int w,h;
     private int[] paletteBinary;
+    private int tickTime = 50;
     private double scale = 2;
     /*взять WALL, сделть плотность .18 и захуярить поле астероидов. мелкие и большие.*/
 
@@ -51,6 +64,8 @@ public class Controller {
     TextField stayValuesField;
     @FXML
     TextField fillDensityField;
+    @FXML
+    TextField tickTimeField;
 
     @FXML
     private void reset(){ //resets teh field
@@ -68,6 +83,13 @@ public class Controller {
         update();
         pause();
     }
+
+    @FXML
+    private void applyTickTime(){
+        double tickTime = Double.parseDouble(tickTimeField.getText());
+
+    }
+
 
     @FXML
     private void applyBirthValues(ActionEvent e) {
@@ -90,6 +112,11 @@ public class Controller {
     }
 
     @FXML
+    private void printTickTime(){
+
+    }
+
+    @FXML
     private void printBirthValues(ActionEvent e) {
         String birthValuesText = Arrays.toString(ap.getBirthValues());
         birthValuesField.setText(birthValuesText.substring(1, birthValuesText.length()-1));
@@ -107,8 +134,17 @@ public class Controller {
     }
 
     @FXML
-    private void captureTheField(ActionEvent e) {
-        System.out.println("field capture failed successfully");
+    private void captureTheField(ActionEvent e) throws IOException {
+        //TODO: move to FileUtils
+        pause();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Lossless Image Files", "*.png"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        File file = fileChooser.showSaveDialog(primaryStage);
+        ImageIO.write(bimg, "png", file);
+        //System.out.println("Failed to fail field capture");
     }
 
     @FXML
@@ -169,6 +205,10 @@ public class Controller {
 
     public boolean getPaused() {
         return ap.getPaused();
+    }
+
+    public int getTickTime(){
+        return tickTime;
     }
 
     private int[] strArrayToIntArray(String[] input) {

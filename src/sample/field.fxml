@@ -10,6 +10,12 @@
 
     <Canvas fx:id="cellField" height="512" width="512"/>
     <VBox alignment="CENTER" spacing="10">
+        <Text text="Tick time (ms)"/>
+        <HBox>
+            <TextField fx:id="tickTimeField"/>
+            <Button fx:id="buttonApplyTickTime" text="Apply" onAction="#applyTickTime"/>
+            <Button fx:id="buttonGetTickTime" text="Get" onAction="#printTickTime"/>
+        </HBox>
         <HBox alignment="CENTER">
             <Button fx:id="buttonTick"  text="Tick"  onAction="#tickOnce"/>
             <Button fx:id="buttonPause" text="Pause" onAction="#togglePause"/>
@@ -18,7 +24,7 @@
         <VBox alignment="CENTER_LEFT" spacing="5">
             <Text text="Birth values:"/>
             <HBox>
-                <TextField fx:id="birthValuesField"/>
+                <TextField fx:id="birthValuesField" onAction="#applyBirthValues"/>
                 <Button fx:id="buttonApplyBirthValues" text="Apply" onAction="#applyBirthValues"/>
                 <Button fx:id="buttonGetBirthValues" text="Get" onAction="#printBirthValues"/>
             </HBox>

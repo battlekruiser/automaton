@@ -4,13 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritablePixelFormat;
 import javafx.stage.Stage;
-import javafx.scene.image.WritableImage;
 
-import java.nio.IntBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,6 +20,7 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.getScene().getWindow().setOnCloseRequest(new CloseRequestHandler<>(controller));
         controller.init();
+        controller.setPrimaryStage(primaryStage);
         System.out.println(controller.getCellCount());
         Timer t = new Timer();
         t.schedule(new TimerTask(){
@@ -33,7 +29,7 @@ public class Main extends Application {
                     controller.update();
                 //System.out.println(controller.getCellCount());
             }
-        }, 0, 50);
+        }, 0, controller.getTickTime());
 
     }
 
