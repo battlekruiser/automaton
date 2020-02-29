@@ -79,7 +79,7 @@ public class Automaton {
         setState(new byte[w*h]);
     }
 
-    void tick() {
+    void tick() { //todo add threading; should be trivial due to not working in-place
         int w = state.length;
         byte[] result = Arrays.copyOf(state, w);
         for(int i = 0; i < w; i++) {

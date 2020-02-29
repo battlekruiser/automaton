@@ -38,8 +38,8 @@ public class Controller {
 
     private int w,h;
     private int[] paletteBinary;
-    private int tickTime = 50;
-    private double scale = 2;
+    private int tickTime = 100;
+    private double scale = 1;
     /*взять WALL, сделть плотность .18 и захуярить поле астероидов. мелкие и большие.*/
 
     public void init(){
@@ -86,10 +86,8 @@ public class Controller {
 
     @FXML
     private void applyTickTime(){
-        double tickTime = Double.parseDouble(tickTimeField.getText());
-
+        setTicktime(Integer.parseInt(tickTimeField.getText()));
     }
-
 
     @FXML
     private void applyBirthValues(ActionEvent e) {
@@ -113,7 +111,7 @@ public class Controller {
 
     @FXML
     private void printTickTime(){
-
+        tickTimeField.setText(Integer.toString(getTickTime()));
     }
 
     @FXML
@@ -205,6 +203,10 @@ public class Controller {
 
     public boolean getPaused() {
         return ap.getPaused();
+    }
+
+    public void setTicktime(int t) {
+        tickTime = t;
     }
 
     public int getTickTime(){
