@@ -79,7 +79,10 @@ public class Automaton {
         setState(new byte[w*h]);
     }
 
-    //todo add threading; should be trivial due to not working in-place. Add possibility to select arbitrary number of threads; split the working array accordingly.
+    /*todo add threading; should be trivial due to not working in-place.
+    * Add possibility to select arbitrary number of threads; split the working array accordingly.
+    * Idea: separate into horizontal slices, to use those ram optimisations where it caches a line of cells
+    */
     void tick() {
         int w = state.length;
         byte[] result = Arrays.copyOf(state, w);
