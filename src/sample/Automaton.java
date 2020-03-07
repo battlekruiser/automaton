@@ -8,8 +8,8 @@ public class Automaton {
     private double density = .2;
     private RandomArrayGenerator rag;
     private byte[] state;
-    private int[] birthValues = {3,13,14,15,16,17,18};
-    private int[] stayValues = {9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24};
+    private Rule birthRule = new Rule(new int[]{3,13,14,15,16,17,18});
+    private Rule stayRule = new Rule(new int[]{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24});
     private int countRadius = 2;
 
     private void setFieldWidth(int w) {
@@ -28,20 +28,20 @@ public class Automaton {
         return fieldWidth;
     }
 
-    public void setBirthValues(int[] nr){
-        birthValues = nr;
+    public void setBirthRule(Rule nr){
+        birthRule = nr;
     }
 
-    public int[] getBirthValues() {
-        return birthValues;
+    public Rule getBirthRule() {
+        return birthRule;
     }
 
-    public void setStayValues(int[] nr) {
-        stayValues = nr;
+    public void setStayRule(Rule nr) {
+        stayRule = nr;
     }
 
-    public int[] getStayValues() {
-        return stayValues;
+    public Rule getStayRule() {
+        return stayRule;
     }
 
     public void setFillDensity(double d) {
@@ -54,9 +54,9 @@ public class Automaton {
 
 
 
-    public void setRules(int[] nb, int[] ns) {
-        setBirthValues(nb);
-        setStayValues(ns);
+    public void setRules(Rule nb, Rule ns) {
+        setBirthRule(nb);
+        setStayRule(ns);
     }
 
     public void setState(byte[] ns) {
@@ -79,7 +79,8 @@ public class Automaton {
         setState(new byte[w*h]);
     }
 
-    void tick() { //todo add threading; should be trivial due to not working in-place
+    //todo add threading; should be trivial due to not working in-place. Add possibility to select arbitrary number of threads; split the working array accordingly.
+    void tick() {
         int w = state.length;
         byte[] result = Arrays.copyOf(state, w);
         for(int i = 0; i < w; i++) {
@@ -93,9 +94,9 @@ public class Automaton {
                     }
                 }
             }
-            if(state[i] == 0 && belongs(count, birthValues))
+            if(state[i] == 0 && birthRule.contains(count))
                 result[i] = 1;
-            if(state[i] == 1 && !belongs(count, stayValues))
+            if(state[i] == 1 && !stayRule.contains(count))
                 result[i] = 0;
         }
         state = result;

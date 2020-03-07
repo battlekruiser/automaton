@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.embed.swing.SwingFXUtils;
@@ -17,9 +18,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.TimerTask;
 
 public class Controller {
@@ -32,6 +30,7 @@ public class Controller {
     private WritableImage wimg, wimg2;
     private BufferedImage bimg;
     private Stage primaryStage;
+    private Rule rsp;
     public void setPrimaryStage(Stage s){
         primaryStage = s;
     }
@@ -39,7 +38,7 @@ public class Controller {
     private int w,h;
     private int[] paletteBinary;
     private int tickTime = 100;
-    private double scale = 1;
+    private double scale = 2;
     /*взять WALL, сделть плотность .18 и захуярить поле астероидов. мелкие и большие.*/
 
     public void init(){
@@ -66,6 +65,8 @@ public class Controller {
     TextField fillDensityField;
     @FXML
     TextField tickTimeField;
+    @FXML
+    Button buttonPause;
 
     @FXML
     private void reset(){ //resets teh field
@@ -91,15 +92,13 @@ public class Controller {
 
     @FXML
     private void applyBirthValues(ActionEvent e) {
-        String[] tmp = birthValuesField.getText().split(",");
-        ap.setBirthValues(strArrayToIntArray(tmp));
+        ap.setBirthRule(Rule.parseRuleString(birthValuesField.getText()));
         printBirthValues(null);
     }
 
     @FXML
     private void applyStayValues(ActionEvent e) {
-        String[] tmp = stayValuesField.getText().split(",");
-        ap.setStayValues(strArrayToIntArray(tmp));
+        ap.setStayRule(Rule.parseRuleString(stayValuesField.getText()));
         printStayValues(null);
     }
 
@@ -116,14 +115,12 @@ public class Controller {
 
     @FXML
     private void printBirthValues(ActionEvent e) {
-        String birthValuesText = Arrays.toString(ap.getBirthValues());
-        birthValuesField.setText(birthValuesText.substring(1, birthValuesText.length()-1));
+        birthValuesField.setText(ap.getBirthRule().toString());
     }
 
     @FXML
     private void printStayValues(ActionEvent e) {
-        String stayValuesText = Arrays.toString(ap.getStayValues());
-        stayValuesField.setText(stayValuesText.substring(1, stayValuesText.length() - 1));
+        stayValuesField.setText(ap.getStayRule().toString());
     }
 
     @FXML
@@ -185,20 +182,25 @@ public class Controller {
         return count;
     }
 
+    private void updatePauseButton() {
+        buttonPause.setText(getPaused()? "Play": "Pause");
+    }
+
     public void togglePause(){
-        ap.togglePause();
+        setPaused(!getPaused());
     }
 
     public void pause() {
-        ap.pause();
+        setPaused(true);
     }
 
     public void unpause() {
-        ap.unpause();
+        setPaused(false);
     }
 
     public void setPaused(boolean b) {
         ap.setPaused(b);
+        updatePauseButton();
     }
 
     public boolean getPaused() {
@@ -213,11 +215,5 @@ public class Controller {
         return tickTime;
     }
 
-    private int[] strArrayToIntArray(String[] input) {
-        int[] res = new int[input.length];
-        for(int i = 0; i < input.length; i++) {
-            res[i] = Integer.parseInt(input[i].trim());
-        }
-        return res;
-    }
+
 }
