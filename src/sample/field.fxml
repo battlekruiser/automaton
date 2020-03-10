@@ -10,7 +10,13 @@
 
     <Canvas fx:id="cellField" height="512" width="512"/>
     <VBox alignment="CENTER" spacing="10">
-        <Text text="Tick time (ms)"/>
+        <Text text="Seed:"/>
+        <HBox>
+            <TextField fx:id="seedField"/>
+            <Button fx:id="buttonApplySeed" text="Apply" onAction="#applySeed"/>
+            <Button fx:id="buttonGetSeed" text="Get" onAction="#printSeed"/>
+        </HBox>
+        <Text text="Tick time (ms):"/>
         <HBox>
             <TextField fx:id="tickTimeField"/>
             <Button fx:id="buttonApplyTickTime" text="Apply" onAction="#applyTickTime"/>

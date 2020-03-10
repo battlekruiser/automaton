@@ -1,5 +1,8 @@
 package sample;
 
+
+import java.util.TreeSet;
+
 public class Rule {
     private int[] arr;
     public Rule() {
@@ -11,7 +14,25 @@ public class Rule {
     }
 
     public Rule(String r) {
-        this(strArrayToIntArray(r.split(",")));
+        String[] input = r.split(",");
+        TreeSet<Integer> arl = new TreeSet<>();
+        for(String s:input) {
+            s = s.trim();
+            if(s.equals(""))
+                continue;
+            if(s.contains("-")){
+                String[] tmp = s.split("-");
+                int a0 = Integer.parseInt(tmp[0]), a1 = Integer.parseInt(tmp[1]);
+                for(int i = a0; i <= a1; arl.add(i++));
+                continue;
+            }
+            arl.add(Integer.parseInt(s));
+        }
+        arr = new int[arl.size()];
+        int s = 0;
+        for(Integer i:arl) {
+            arr[s++] = i;
+        }
     }
 
     //checks a against arr: returns true if a is in arr at least once
@@ -28,25 +49,30 @@ public class Rule {
     }
 
     //same assumption as above
+    //This ugly mess nices the rule up :^)
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < arr.length; i++) {
-            sb.append(Integer.toString(arr[i]));
-            if(i != arr.length-1)
-                sb.append(", ");
+        int prev = arr[0];
+        int seqfirst = prev;
+        for(int i = 1; i < arr.length; i++) {
+             if(arr[i] == prev+1) {
+                 prev++;
+                 if(i != arr.length-1)
+                    continue;
+             }
+             if(prev==seqfirst)
+                 sb.append(Integer.toString(prev));
+             else
+                 sb.append(Integer.toString(seqfirst)+"-"+Integer.toString(prev));
+             sb.append(i == arr.length-1 ? "" : ", ");
+             if(i == arr.length - 1 && prev != arr[i])
+                 sb.append(arr[i]);
+             seqfirst=prev=arr[i];
         }
         return sb.toString();
     }
 
     public static String toString(Rule r) {
         return r.toString();
-    }
-
-    private static int[] strArrayToIntArray(String[] input) {
-        int[] res = new int[input.length];
-        for(int i = 0; i < input.length; i++) {
-            res[i] = Integer.parseInt(input[i].trim());
-        }
-        return res;
     }
 }

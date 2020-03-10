@@ -23,8 +23,8 @@ import java.util.TimerTask;
 public class Controller {
 
     private Automaton ap;
-    public void setAp(){
-
+    public void setAp(Automaton nap){
+        ap = nap;
     }
 
     private WritableImage wimg, wimg2;
@@ -53,6 +53,7 @@ public class Controller {
         printBirthValues(null);
         printStayValues(null);
         printFillDensity(null);
+        printSeed(null);
     }
 
     @FXML
@@ -65,6 +66,8 @@ public class Controller {
     TextField fillDensityField;
     @FXML
     TextField tickTimeField;
+    @FXML
+    TextField seedField;
     @FXML
     Button buttonPause;
 
@@ -109,6 +112,11 @@ public class Controller {
     }
 
     @FXML
+    private void applySeed(ActionEvent e){
+        ap.getRag().setSeed(Integer.parseInt(seedField.getText()));
+    }
+
+    @FXML
     private void printTickTime(){
         tickTimeField.setText(Integer.toString(getTickTime()));
     }
@@ -126,6 +134,11 @@ public class Controller {
     @FXML
     private void printFillDensity(ActionEvent e) {
         fillDensityField.setText(Double.toString(ap.getFillDensity()));
+    }
+
+    @FXML
+    private void printSeed(ActionEvent e) {
+        seedField.setText(Integer.toString(ap.getRag().getSeed()));
     }
 
     @FXML

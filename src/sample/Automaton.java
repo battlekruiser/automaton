@@ -8,8 +8,8 @@ public class Automaton {
     private double density = .2;
     private RandomArrayGenerator rag;
     private byte[] state;
-    private Rule birthRule = new Rule(new int[]{3,13,14,15,16,17,18});
-    private Rule stayRule = new Rule(new int[]{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24});
+    private Rule birthRule = new Rule("3,13-18");
+    private Rule stayRule = new Rule("9-24");
     private int countRadius = 2;
 
     private void setFieldWidth(int w) {
@@ -22,6 +22,10 @@ public class Automaton {
 
     public void setRag(RandomArrayGenerator rg) {
         rag = rg;
+    }
+
+    public RandomArrayGenerator getRag(){
+        return rag;
     }
 
     public int getFieldWidth(){
@@ -51,8 +55,6 @@ public class Automaton {
     public double getFillDensity(){
         return density;
     }
-
-
 
     public void setRules(Rule nb, Rule ns) {
         setBirthRule(nb);
